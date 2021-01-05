@@ -1,0 +1,23 @@
+{
+  "name": "open-source-discord-bot",
+  "version": "1.0.0",
+  "description": "This is an open source discord bot using nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Apyx121/Open-Source-Discord-Bot.git"
+  },
+  "author": "Apyx#9480",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Apyx121/Open-Source-Discord-Bot/issues"
+  },
+  "homepage": "https://github.com/Apyx121/Open-Source-Discord-Bot#readme",
+  "dependencies": {
+    "canvas": "^2.6.1",
+    "discord.js": "^12.5.1"
+  }
+}
