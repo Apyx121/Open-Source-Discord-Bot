@@ -2,15 +2,10 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 const botsetings = require("./botsettings.json");
 
-bot.on("ready", () => {
-  console.log("This bot is ready to be used");
-});
-
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 
 const fs = require("fs");
-const prefix = botsetings.prefix;
 
 const commandsFolder = fs.readdirSync("./Commands").filter((folder) => folder);
 
@@ -31,29 +26,20 @@ const setup = async () => {
   }
 };
 
-bot.on("message", async (message) => {
-  if (message.author.bot || message.channel.type === "dm") return;
-  if (message.author.bot) return;
-  if (!message.guild) return;
-  if (!message.content.startsWith(prefix)) return;
-  if (!message.member) {
-    member.member = await message.guild.fetchMember(message);
-  }
+const events = async () => {
+  fs.readdir("./Events", (err, files) => {
+    if (err) {
+      return console.error(err);
+    }
+    files.forEach((file) => {
+      if (!file.endsWith(".js")) return;
+      const event = require(`./Events/${file}`);
+      const eventName = file.split(".")[0];
+      bot.on(eventName, event.bind(null, bot));
+    });
+  });
+};
 
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
-  const cmd = args.shift().toLowerCase();
-
-  if (cmd.length == 0) return;
-
-  const command = bot.commands.get(cmd);
-  if (!command) {
-    command = bot.commands.get(bot.aliases.get(cmd));
-  }
-
-  if (command) {
-    command.run(bot, message, args);
-  }
-});
-
+events();
 setup();
 bot.login(botsetings.token);
